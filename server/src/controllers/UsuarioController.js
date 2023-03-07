@@ -61,7 +61,7 @@ class UsuarioController{
                 return res.status(500).json({ error: "Internal server error." })
             } 
         
-            if(Object.keys(results).length === 0) return res.status(404).json({ error: "User doesnt exists." })
+            if(Object.keys(results).length === 0) return res.status(404).json({ error: "O usuário não está cadastrado no sistema." })
         
             db.pool.execute('DELETE FROM Usuario WHERE ID = ?',[ID],(error, results) => { 
                 if(error) return res.status(500).json({ error: "Internal server error." })
@@ -82,7 +82,7 @@ class UsuarioController{
                 console.error(error)
                 return res.status(500).json({ error: "Internal server error." })
             } 
-            if(Object.keys(results).length === 0) return res.status(404).json({ error: "User doesnt exists." })
+            if(Object.keys(results).length === 0) return res.status(404).json({ error: "O usuário não está cadastrado no sistema." })
         
             db.pool.execute('UPDATE Usuario SET Nome = ?, Email = ?, Senha = ? WHERE ID = ?',[Nome, Email, Senha, ID],(error, results) => { 
                 if(error) return res.status(500).json({ error: "Internal server error." })
