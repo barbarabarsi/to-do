@@ -2,11 +2,6 @@ import db from "../database/index.js"
 import { v4 as uuid } from 'uuid';
 import bcrypt from 'bcryptjs'
 
-// mostrar todos os dados de um usuário
-// deletar um usuário
-// alterar um usuário
-// criar um usuário
-
 class UsuarioController{
 
     async index(req, res){

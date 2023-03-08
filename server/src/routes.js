@@ -5,12 +5,15 @@ import UsuarioController from "./controllers/UsuarioController.js";
 import ToDoController from "./controllers/ToDoController.js";
 import ItemController from "./controllers/ItemController.js";
 import SessionController from "./controllers/SessionController.js";
+import auth from "./middleware/auth.js"
 
 const routes = new Router()
 
 routes.get('/', HelloController.index)
 routes.post('/usuario', UsuarioController.create)
 routes.post('/session', SessionController.create)
+
+routes.use(auth) //middleware
 
 routes.get('/usuario', UsuarioController.index)
 routes.get('/usuario/:ID', UsuarioController.show)
