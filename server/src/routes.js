@@ -13,7 +13,7 @@ routes.get('/', HelloController.index)
 routes.post('/usuario', UsuarioController.create)
 routes.post('/session', SessionController.create)
 
-routes.use(auth) //middleware
+// routes.use(auth) //middleware
 
 routes.get('/usuario', UsuarioController.index)
 routes.get('/usuario/:ID', UsuarioController.show)

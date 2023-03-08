@@ -84,27 +84,13 @@ class ItemController{
 
     } 
 
-    // Contabiliza os itens concluídos e o total do usuário
-    async countTotal(req, res){
+    // Contabiliza os itens totais e concluídos por ToDo
+    async count(req, res){
 
         const {UsuarioID} = req.params
 
-        db.pool.execute('SELECT COUNT(Item.ID) AS TotalItens ,(SELECT COUNT(Item.ID) FROM Item INNER JOIN ToDo ON Item.fk_ToDo_ID = ToDo.ID WHERE fk_Usuario_ID = ? AND Item.Concluido = 1) AS ItensConcluidos FROM Item INNER JOIN ToDo ON Item.fk_ToDo_ID = ToDo.ID WHERE fk_Usuario_ID = ?;',
-         [UsuarioID,UsuarioID], (error, results) => {
-            if (error){
-                console.error(error)
-                return res.status(500).json({ error: "Internal server error." })
-            }
-            res.status(200).json(results)      
-        })
-    } 
-
-    // Contabiliza os itens concluídos e o total de um "to do"
-    async countToDo(req, res){
-
-        const {ToDoID} = req.params
-
-        db.pool.execute('SELECT COUNT(ID) AS TotalItens, (SELECT COUNT(ID) FROM Item WHERE Concluido = 1 AND fk_ToDo_ID = ?) AS ItensConcluidos FROM Item WHERE fk_ToDo_ID = ?;', [ToDoID,ToDoID], (error, results) => {
+        db.pool.execute('SELECT Item.fk_ToDo_ID AS todoID, SUM(Item.Concluido) AS ItensConcluidos, COUNT(Item.ID) AS totalItensFROM Item INNER JOIN ToDo ON Item.fk_ToDo_ID = ToDo.ID WHERE fk_Usuario_ID = ? GROUP BY Item.fk_ToDo_ID;',
+         [UsuarioID], (error, results) => {
             if (error){
                 console.error(error)
                 return res.status(500).json({ error: "Internal server error." })
