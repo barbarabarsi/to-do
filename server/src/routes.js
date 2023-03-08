@@ -31,8 +31,7 @@ routes.post('/usuario/:UsuarioID/todo/:ToDoID/item', ItemController.create)
 routes.delete('/usuario/:UsuarioID/todo/:ToDoID/item/:ID', ItemController.delete)
 routes.put('/usuario/:UsuarioID/todo/:ToDoID/item/:ID', ItemController.update)
 routes.patch('/usuario/:UsuarioID/todo/:ToDoID/item/:ID', ItemController.updateState)
-routes.get('/usuario/:UsuarioID/todo/:ToDoID/itemcountTotal', ItemController.countTotal)
-routes.get('/usuario/:UsuarioID/todo/:ToDoID/itemcountToDo', ItemController.countToDo)
+routes.get('/usuario/:UsuarioID/itemcount', ItemController.count)
 
 
 export default routes
