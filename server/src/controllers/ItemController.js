@@ -89,7 +89,7 @@ class ItemController{
 
         const {UsuarioID} = req.params
 
-        db.pool.execute('SELECT Item.fk_ToDo_ID AS todoID, SUM(Item.Concluido) AS ItensConcluidos, COUNT(Item.ID) AS totalItensFROM Item INNER JOIN ToDo ON Item.fk_ToDo_ID = ToDo.ID WHERE fk_Usuario_ID = ? GROUP BY Item.fk_ToDo_ID;',
+        db.pool.execute('SELECT Item.fk_ToDo_ID AS todoID, SUM(Item.Concluido) AS ItensConcluidos, COUNT(Item.ID) AS totalItens FROM Item INNER JOIN ToDo ON Item.fk_ToDo_ID = ToDo.ID WHERE fk_Usuario_ID = ? GROUP BY Item.fk_ToDo_ID',
          [UsuarioID], (error, results) => {
             if (error){
                 console.error(error)
