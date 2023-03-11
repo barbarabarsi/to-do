@@ -285,11 +285,48 @@ const Homepage = () => {
                             </div> 
                         </div>                     
                 </div> 
+                }       
+                {
+                    delToDo && 
+                    <div className="popup" id="del">
+                        <div id="cover" onClick={ () => setDelToDo(false)}/>
+                        <div className="delete">
+                            <p> Deseja deletar a lista { toDoSelected.Nome } e os seus { 
+                                porcToDos.filter(item => item.toDoID === toDoSelected)[0]?.totalItens
+                                }
+                                itens?
+                            </p>
+                            <button className="default-button" onClick={ () => setDelToDo(false) }>Cancelar</button>
+                            <button  id="delete-button" onClick={ () => handleDelToDo(toDoSelected.ID) }>Deletar</button>
+                        </div>
+                    </div>
                 }
                 </div>
             }
-            <div id="navbar"></div>
-            <div id="sobescrito"></div>
+            <Navbar/>
+            <div id="sobescrito">
+                <input
+                type="text"
+                id="toDoNomeBusca"
+                name= "toDoNomeBusca"
+                value={toDoBusca.Nome}
+                placeholder="Título"
+                onChange = { (e) => setToDoBusca( (prev) => ({...prev, Nome: e.target.value}) ) }
+                />
+                <Select options={categoria} 
+                styles={{
+                    control: (baseStyles, state) => ({
+                      ...baseStyles,
+                      zIndex: "1"
+                    }),
+                  }}
+                id="select"
+                placeholder="Categorias"
+                value = { categoria.find((option) => option.value === toDoBusca.Categoria)}
+                onChange = { (e) => setToDoBusca( (prev) => ({...prev, Categoria: e.value}) ) }>
+                </Select>
+                <button className="default-button" onClick={() => setToDoBusca({Nome:'', Categoria:''})}>Limpar filtros</button>
+            </div>
             <ul id="painel">
                 {
                 toDos?.map((toDo) => 
