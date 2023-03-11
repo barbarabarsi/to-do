@@ -12,7 +12,6 @@ const Navbar = () => {
 
     const loadUser = async() => {
         const response = await getUsuario(usuario?.ID)
-        console.log(getUsuario(usuario?.ID))
         setUsuarioLog(response.data[0])
     }
 

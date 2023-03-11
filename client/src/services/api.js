@@ -58,7 +58,6 @@ export const createNewToDo = async (ID,toDoNovo) => {
 }
 
 export const editToDo = async (ID,toDoID,toDoEdit) => {
-    console.log(toDoEdit)
     let url = `/usuario/${ID}/todo/${toDoID}`
     return api.patch(url, {Nome: toDoEdit.Nome, Categoria: toDoEdit.Categoria})
 }
