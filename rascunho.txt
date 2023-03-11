@@ -1,0 +1,229 @@
+Configurando o backend e construindo algumas rotas com o BD
+Adicionando criptografia nas senhas e um gerador de IDs aleatórios
+Construindo rotas básicas para as notas
+Construindo a parte de autenticação do usuário
+Começando a estruturar o frontend
+Adicionando a criação e exclusão de notas e corrigindo erros
+Finalizando a adição dos contextos e autenticação de usuário
+Inserindo a funcionalidade de busca e aprimorando o design
+Organizando as páginas em diretórios e consertando problemas no frontend
+
+Configurando arquivos do server para o deploy
+Renomeando arquivos e configurando mais coisas para o deploy
+Corrigindo o path do build
+Alterando paths errados nos arquivos de config
+Inserindo o novo path da api
+Ajustes na resposta de erro de conexão ao servidor
+Alterando a logo
+Criando README
+Mudando o icon do site
+
+4 telas
+
+login
+
+cadastro
+
+
+tela principal
+
+
+tela usuário
+
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+7287c909-487e-416b-849c-44a156e1390f
+d644172d-22a8-4786-83d7-83ceaa82f7a0
+
+lorem ipsum sit dolorem at met lorem ipsum sit dolorem at met lorem ipsum sit dolrem at met lorem ipsum sit dolorem at met lorem ipsum site
+
+
+
+
+deletar um usuário
+alterar um usuário
+criar um usuário
+
+mostrar todas os to-dos de um usuário
+mostrar to-dos especíd
+criar um to-do
+criar uma nota no to-do
+deletar um to-do
+alterar os dados de um to-do
+contar o numero de to-dos de um usuário
+contar o numero de to-dos finalizados de um usuário
+
+alterar os dados de uma tarefa
+deletar uma tarefa
+contar o número de tarefas de um usuário
+contar o número de tarefas finalizadas de um usuário
+
+
+Criar usuário
+Deletar um usuário
+Alterar os dados de um usuário
+Exibir os dados de um usuário
+
+Criar um to do
+Deletar um to do
+Alterar os dados de um to do (nome, categoria e estado)
+Alterar o estado de um to do 
+Exibir todos os "to do" de um usuário
+Exibir um to do específico de um usuário
+
+Inserir um item em um to do 
+Deletar um item em um to do
+Alterar a descrição de um item
+Alterar o estado de um item
+Contar o número total de itens de um usuário
+Contar o número total de itens concluídos de um usuário
+
+import db from "../database/index.js"
+import { v4 as uuid } from 'uuid';
+import bcrypt from 'bcryptjs'
+
+// mostrar todos os dados de um usuário
+// deletar um usuário
+// alterar um usuário
+// criar um usuário
+
+class UsuarioController{
+
+    async index(req, res){
+
+        db.pool.execute('SELECT * from Usuario', (error, results) => {
+            if (error){
+                console.error(error)
+                return res.status(500).json({ error: "Internal server error." })
+            }
+            res.status(200).json(results)      
+        })  
+    }
+
+    // Exibe um usuário de acordo com sua ID
+    async show(req, res){
+
+        const { ID } = req.params
+
+        db.pool.execute('SELECT * from Usuario WHERE ID = ?',  [ID], (error, results) => {
+            if (error){
+                console.error(error)
+                return res.status(500).json({ error: "Internal server error." })
+            }
+            res.status(200).json(results)      
+        })  
+    }
+
+    // Cria um usuário, com nome, email e senha
+    async create(req, res){
+
+        const {Nome, Email} = req.body
+        const hashSenha = await bcrypt.hash(req.body.Senha, 10) //Criptografando a senha tulizando bcrypt
+        const ID = uuid()
+
+        db.pool.execute('INSERT INTO Usuario VALUES (?,?,?,?)',  [Nome, Email, hashSenha, ID], (error, results) => {
+            if (error){
+                console.error(error)
+                return res.status(500).json({ error: "Internal server error." })
+            }
+            res.status(200).json(results)      
+        })
+    }
+
+    // Deleta um usuário com uma ID específica
+    async delete(req, res){
+        const {ID} = req.params
+
+        // Checagem da existência do usuário requisitado no banco de dados
+        db.pool.execute('SELECT * from Usuario WHERE ID = ?',  [ID], (error, results) => {
+            if (error){
+                console.error(error)
+                return res.status(500).json({ error: "Internal server error." })
+            } 
+        
+            if(Object.keys(results).length === 0) return res.status(404).json({ error: "User doesnt exists." })
+        
+            db.pool.execute('DELETE FROM Usuario WHERE ID = ?',[ID],(error, results) => { 
+                if(error) return res.status(500).json({ error: "Internal server error." })
+                res.status(200).json(results)   
+            })
+        })
+    }
+
+    // Atualiza usuários utilizando sua ID como referência
+    async update(req, res){
+
+        const {ID} = req.params
+        const { Nome, Email, Senha} = req.body 
+
+        // Checagem da existência do usuário requisitado no banco de dados
+        db.pool.execute('SELECT * from Usuario WHERE ID = ?',  [ID], (error, results) => {
+            if (error){
+                console.error(error)
+                return res.status(500).json({ error: "Internal server error." })
+            } 
+            if(Object.keys(results).length === 0) return res.status(404).json({ error: "User doesnt exists." })
+        
+            db.pool.execute('UPDATE Usuario SET Nome = ?, Email = ?, Senha = ? WHERE ID = ?',[Nome, Email, Senha, ID],(error, results) => { 
+                if(error) return res.status(500).json({ error: "Internal server error." })
+                res.status(200).json(results)   
+            })
+        })
+    }
+
+}
+
+
+export default new UsuarioController()
+
+import { Router } from "express";
+
+import HelloController from "./controllers/HelloController.js";
+import UsuarioController from "./controllers/UsuarioController.js";
+import ToDoController from "./controllers/ToDoController.js";
+import ItemController from "./controllers/ItemController.js";
+
+
+const routes = new Router()
+
+routes.get('/', HelloController.index)
+
+routes.get('/usuario', UsuarioController.index)
+routes.get('/usuario/:ID', UsuarioController.show)
+routes.post('/usuario', UsuarioController.create)
+routes.delete('/usuario/:ID', UsuarioController.delete)
+
+routes.get('/to-do', ToDoController.index)
+
+routes.get('/item', ItemController.index)
+
+
+export default routes
+
+
+MySQL 8.0 Server:3306/todoproj/ToDo/		https://www.db4free.net/phpMyAdmin/index.php?route=/table/sql&db=todoproj&table=ToDo
+Seu comando SQL foi executado com sucesso.
+
+-- ALTER TABLE pessoa DROP CONSTRAINT pessoa_ibfk_1
+show create table ToDo;
+
+
+
+ToDo	CREATE TABLE `ToDo` (
+  `ID` varchar(50) NOT NULL,...	
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+// const {Concluido} = req.body
+        // const {ID} = req.params
+        // (Concluido,ID)
+        // db.pool.execute('UPDATE ToDo SET Concluido = ? WHERE ID = ?', [Concluido, ID], (error, results) => {
+        //     if (error){
+        //         console.error(error)
+        //         return res.status(500).json({ error: "Internal server error." })
+        //     }
+        //     res.status(200).json(results)      
+        // })

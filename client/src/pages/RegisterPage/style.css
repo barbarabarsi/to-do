@@ -1,0 +1,82 @@
+/* 
+#register{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(185 213 152);
+    min-height: 100vh;
+    gap: 30px;
+    transition: 0.2s;
+}
+
+#register .title{
+    color:rgb(255, 255, 255);
+    font-size: 1.5rem;
+    font-weight: 1000;
+    margin-bottom: 30px;
+}
+
+#register form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(68, 68, 68, 0.76);
+    border-radius: 5px;
+    width: 100%;
+    max-width: 380px;
+    padding: 1rem;
+}
+
+#register span{
+    color:rgba(255, 255, 255, 0.705);
+    margin: 10px;
+    font-size: 15px;
+}
+
+#register input{
+    color: white;
+    background-color: transparent;
+    width: 80%;
+    height: 30px;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    padding: 8px;
+    margin: 10px;
+    font-size:1rem;
+}
+
+#register input:focus{
+    outline: none;
+}
+
+#register input::placeholder{
+    color: rgba(255, 255, 255, 0.5);
+}
+
+#register button{
+    font-size:0.9rem;
+    font-weight: 600;
+    color:white;
+    background-color: rgba(68, 68, 68, 0.76);
+    border:none;
+    border-radius: 10px;
+    height: 40px;
+    width: 80px;
+    margin: 10px;
+    transition: 0.4s;
+    cursor:pointer;
+}
+
+#register button:hover{
+    font-weight: 800;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: rgb(17, 17, 17);
+}
+
+#register a{
+    color: rgb(255, 255, 255);
+    font-weight: 400;
+    text-decoration: none;
+} */

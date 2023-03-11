@@ -23,8 +23,7 @@ class ItemController{
         const { ToDoID } = req.params
         const { Descricao } = req.body
         const ID = uuid()
-
-        db.pool.execute('INSERT INTO ToDo VALUES (?,0,?,?)', [ Descricao, ToDoID, ID ], (error, results) => {
+        db.pool.execute('INSERT INTO Item VALUES (?,?,?,?)', [ Descricao,0, ToDoID, ID ], (error, results) => {
             if (error){
                 console.error(error)
                 return res.status(500).json({ error: "Internal server error." })
@@ -73,7 +72,6 @@ class ItemController{
         
         const {Concluido} = req.body
         const {ID} = req.params
-        console.log(Concluido,ID)
         db.pool.execute('UPDATE Item SET Concluido = ? WHERE ID = ?', [Concluido, ID], (error, results) => {
             if (error){
                 console.error(error)
@@ -89,7 +87,7 @@ class ItemController{
 
         const {UsuarioID} = req.params
 
-        db.pool.execute('SELECT Item.fk_ToDo_ID AS todoID, SUM(Item.Concluido) AS ItensConcluidos, COUNT(Item.ID) AS totalItens FROM Item INNER JOIN ToDo ON Item.fk_ToDo_ID = ToDo.ID WHERE fk_Usuario_ID = ? GROUP BY Item.fk_ToDo_ID',
+        db.pool.execute('SELECT ToDo.ID AS todoID, IFNULL(SUM(Item.Concluido), 0) AS itensConc, IFNULL(COUNT(Item.ID), 0) AS totalItens FROM Item RIGHT OUTER JOIN ToDo ON Item.fk_ToDo_ID = ToDo.ID WHERE fk_Usuario_ID = ? GROUP BY ToDo.ID',
          [UsuarioID], (error, results) => {
             if (error){
                 console.error(error)

@@ -1,0 +1,34 @@
+#header{
+    height: 7vh;
+    width: 100%;
+    background-color:rgba(68, 68, 68, 0.459);
+    margin-bottom: 10vh;
+    display: flex;
+    justify-content: space-between;
+    color:white;
+    align-items: center;
+}
+
+#header > div{
+    display: flex;
+}
+
+#header p{
+    cursor:default;
+    font-size: 1.1rem;
+    margin-right:30px;
+}
+
+#logo{
+    margin-left:40px;
+    font-weight: bolder;
+    font-size: 1.3rem;
+}
+
+#header p{
+    margin-right:40px;
+}
+
+#logout:hover{
+    cursor:pointer;
+}
