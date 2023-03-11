@@ -2,7 +2,7 @@ import axios from "axios"
 
 
 export const api = axios.create({
-    baseURL: 'to-do-4si3-c90zvw7fs-barbarabarsi.vercel.app'
+    baseURL: 'https://to-do-4si3-c90zvw7fs-barbarabarsi.vercel.app'
 })
 
 export const createSession = async(email, senha) => {
