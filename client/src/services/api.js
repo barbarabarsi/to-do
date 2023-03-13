@@ -4,13 +4,13 @@ export const api = axios.create({
     baseURL: 'https://to-do-4si3-c90zvw7fs-barbarabarsi.vercel.app'
 })
 
-let token = null // initial state
+let token = null
   
 api.interceptors.request.use(async config => {
     if (!token) {
       token = JSON.parse(localStorage.getItem("token"))
     }
-    config.headers.Authorization = `Bearer ${token}` // you may need "Bearer" here
+    config.headers.Authorization = `Bearer ${token}` 
     return config
 })
 
