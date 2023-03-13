@@ -1,9 +1,20 @@
 import axios from "axios"
 
-
 export const api = axios.create({
     baseURL: 'https://to-do-4si3-c90zvw7fs-barbarabarsi.vercel.app'
 })
+
+let token = null // initial state
+  
+api.interceptors.request.use(async config => {
+    if (!token) {
+      token = JSON.parse(localStorage.getItem("token"))
+    }
+    config.headers.Authorization = `Bearer ${token}` // you may need "Bearer" here
+    return config
+})
+
+
 
 export const createSession = async(email, senha) => {
     return api.post('/session', {'Email':email, 'Senha': senha })

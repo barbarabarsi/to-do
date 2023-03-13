@@ -12,10 +12,9 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         api.defaults.headers.Authorization = `Bearer ${token}`
-    },[])
+    })
     
     const login = async(email, senha) => {
-
         const response = await createSession(email, senha)
         localStorage.setItem('usuario', JSON.stringify(response.data.Usuario))
         localStorage.setItem('token', JSON.stringify(response.data.token))
